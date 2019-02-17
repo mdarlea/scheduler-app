@@ -12,11 +12,20 @@
     "importHelpers": true,
     "target": "es5",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "typings"
     ],
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "sw-scheduler": [
+        "dist/sw-scheduler"
+      ],
+      "sw-scheduler/*": [
+        "dist/sw-scheduler/*"
+      ]
+    }
   }
 }

@@ -130,6 +130,41 @@
           }
         }
       }
+    },
+    "sw-scheduler": {
+      "root": "projects/sw-scheduler",
+      "sourceRoot": "projects/sw-scheduler/src",
+      "projectType": "library",
+      "prefix": "",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/sw-scheduler/tsconfig.lib.json",
+            "project": "projects/sw-scheduler/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sw-scheduler/src/test.ts",
+            "tsConfig": "projects/sw-scheduler/tsconfig.spec.json",
+            "karmaConfig": "projects/sw-scheduler/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/sw-scheduler/tsconfig.lib.json",
+              "projects/sw-scheduler/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "scheduler-app"

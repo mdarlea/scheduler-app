@@ -1,0 +1,10 @@
+  <event *ngFor="let event of events"
+           [id]="event.id"
+           [description]="event.description"
+           [location]="event.location"
+           [subject]="event.subject"
+           [start]="event.start"
+           [end]="event.end"
+           [recurrencePattern]="event.recurrencePattern"
+           [recurrenceException]="event.recurrenceException">
+  </event>
