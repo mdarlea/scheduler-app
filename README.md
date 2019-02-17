@@ -1,27 +1,64 @@
-# SchedulerApp
+# Scheduler
+Angular component for the Jqx scheduler widget
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
+## Install
 
-## Development server
+### Install jqwidgets
+```
+$ npm install jqwidgets-framework --save
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Install the scheduler
+```
+$ npm install sw-scheduler --save
+```
 
-## Code scaffolding
+### Update angular.json file
+- Add the jqwidgets scripts to your project in angular.json file:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+              "node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxbuttons.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxscrollbar.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxdata.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxdate.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxscheduler.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxscheduler.api.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxdatetimeinput.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxmenu.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxcalendar.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxtooltip.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxwindow.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxcheckbox.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxlistbox.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxdropdownlist.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxnumberinput.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxradiobutton.js",
+              "node_modules/jqwidgets-framework/jqwidgets/jqxinput.js",
+              "node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.js",
+              "node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.culture.de-DE.js"
 
-## Build
+- Add the jqwidgets styles to your project in angular.json file:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+            "node_modules/jqwidgets-framework/jqwidgets/styles/jqx.base.css"
 
-## Running unit tests
+## Import the Scheduler module
+```typescript
+import { SchedulerModule } from 'sw-scheduler';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+ imports: [
+   SchedulerModule,
+   ...
+ ],
+ ...
+})
+export class AppModule { ... }
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
 
-## Further help
+## Usage
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[Read more](http://www.swaksoft.com/documentation/sw-scheduler)
+
+[How to use the Scheduler component](http://www.swaksoft.com/documentation/sw-scheduler/components/SchedulerComponent.html)
