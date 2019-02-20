@@ -8,6 +8,7 @@ import { SchedulerService } from '../scheduler.service';
 import { EventInfo} from '../event-info';
 import { JqxCalendar} from '../jqx-calendar.model';
 import { CalendarComponent} from '../calendar/calendar.component';
+import { JqxAppointment } from '../jqx-appointment';
 
 interface EventArgs {
   date?: Date;
@@ -28,10 +29,10 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
   private initialized = false;
   private adapter: Jqx.DataAdapter;
   private calendarsAdapter: Jqx.DataAdapter;
-  private jqxAppointments = new Array<Jqx.Appointment>();
+  private jqxAppointments = new Array<JqxAppointment>();
   private jqxCalendars = new Array<{calendar: string}>();
   private renderAppointments = false;
-  private newJqxAppointment: Jqx.Appointment = null;
+  private newJqxAppointment: JqxAppointment = null;
   private changedView = false;
 
   private addEventSubscription: Subscription;
@@ -421,7 +422,7 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
     }
   }
 
-  private setAppointmentFields(id: any, appointment: Jqx.Appointment) {
+  private setAppointmentFields(id: any, appointment: JqxAppointment) {
       $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'appointmentId', appointment.id);
   }
 
@@ -481,7 +482,7 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
 
 
 
-  private updateAppointment(appointment: Jqx.Appointment) {
+  private updateAppointment(appointment: JqxAppointment) {
       let id = null;
       const appointments = $(this.calendarContainer.nativeElement).jqxScheduler('appointments');
       for (const jqxAppointment of appointments) {

@@ -1,5 +1,6 @@
 ﻿import { Directive, OnChanges, Input, OnInit, OnDestroy, Host } from '@angular/core';
 import { CalendarService } from './calendar.service';
+import { JqxAppointment } from '../jqx-appointment';
 
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -15,7 +16,7 @@ export class EventDirective implements OnChanges, OnInit, OnDestroy {
     @Input() recurrencePattern: string;
     @Input() recurrenceException: string;
 
-    private event: Jqx.Appointment;
+    private event: JqxAppointment;
 
     constructor(private calendarSvc: CalendarService) {
     }

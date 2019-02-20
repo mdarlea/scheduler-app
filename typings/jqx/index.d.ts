@@ -34,20 +34,6 @@ declare module Jqx {
     new(year: number, month: number, day: number, hour?: number, minute?: number, second?: number): any;
     new(args: string): any;
   }
-  export interface Appointment {
-        id: any,
-        description?: string,
-        location?: string,
-        subject?: string,
-        calendar?: string,
-        start: Date,
-        end: Date,
-        recurrencePattern?: string,
-        recurrenceException?: string,
-        instructor?: string,
-        draggable?: boolean,
-        color?: string
-  }
 
   export interface Source {
     dataType: string,

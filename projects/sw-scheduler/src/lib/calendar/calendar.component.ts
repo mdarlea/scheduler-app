@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Component, OnChanges, Input, OnInit, OnDestroy, Host, AfterContentInit, AfterViewInit } from '@angular/core';
 import { SchedulerService } from '../scheduler.service';
 import { CalendarService} from './calendar.service';
+import { JqxAppointment } from '../jqx-appointment';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -12,7 +13,7 @@ import { CalendarService} from './calendar.service';
 })
 export class CalendarComponent implements OnChanges, OnInit, AfterContentInit, AfterViewInit, OnDestroy {
     private initialized = false;
-    private jqxAppointments = new Array<Jqx.Appointment>();
+    private jqxAppointments = new Array<JqxAppointment>();
 
     private addEventSubscription: Subscription;
     private updateEventSubscription: Subscription;
