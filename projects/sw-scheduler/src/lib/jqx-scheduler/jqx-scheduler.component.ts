@@ -294,6 +294,9 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         // this.firstClick = false;
         // return;
       }
+      const popup = $('.jqx-popup');
+      popup.hide();
+
       const args = event.args;
       const jqxAppointment = args.appointment.jqxAppointment;
       const id = (jqxAppointment.appointmentId) ? jqxAppointment.appointmentId : jqxAppointment.id;
@@ -505,8 +508,8 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'location', appointment.location);
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'subject', appointment.subject);
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'resourceId', appointment.calendar);
-        $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'recurrencePattern'
-          , appointment.recurrencePattern);
+        // $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'recurrencePattern'
+        //  , appointment.recurrencePattern);
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'recurrenceException'
           , appointment.recurrenceException);
         $(this.calendarContainer.nativeElement).jqxScheduler('endAppointmentsUpdate');
