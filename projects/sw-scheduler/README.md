@@ -14,8 +14,9 @@ $ npm install sw-scheduler --save
 ```
 
 ### Update angular.json file
-- Add the jqwidgets scripts to your project in angular.json file:
+* Add the jqwidgets scripts to your project in angular.json file:
 
+```
 "node_modules/jqwidgets-framework/jqwidgets/jqxcore.js",
 "node_modules/jqwidgets-framework/jqwidgets/jqxbuttons.js",
 "node_modules/jqwidgets-framework/jqwidgets/jqxscrollbar.js",
@@ -36,10 +37,13 @@ $ npm install sw-scheduler --save
 "node_modules/jqwidgets-framework/jqwidgets/jqxinput.js",
 "node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.js",
 "node_modules/jqwidgets-framework/jqwidgets/globalization/globalize.culture.de-DE.js"
+```
 
-- Add the jqwidgets styles to your project in angular.json file:
+* Add the jqwidgets styles to your project in angular.json file:
 
+```
 "node_modules/jqwidgets-framework/jqwidgets/styles/jqx.base.css"
+```
 
 ## Import the Scheduler module
 ```typescript
