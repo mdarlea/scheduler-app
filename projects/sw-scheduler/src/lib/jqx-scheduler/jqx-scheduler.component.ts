@@ -9,6 +9,7 @@ import { EventInfo} from '../event-info';
 import { JqxCalendar} from '../jqx-calendar.model';
 import { CalendarComponent} from '../calendar/calendar.component';
 import { JqxAppointment } from '../jqx-appointment';
+import { UpdateEventInfo } from '../calendar/update-event-info';
 
 interface EventArgs {
   date?: Date;
@@ -107,12 +108,23 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
       if (calendars.length === 0) {
         this.jqxCalendars.push({calendar: jqxCalendar.calendar});
         this.calendarsAdapter.dataBind();
+        if (jqxCalendar.appointments.length > 0) {
+          this.adapter.dataBind();
+        }
         $(this.calendarContainer.nativeElement).jqxScheduler('render');
         ensureVisible = true;
       }
 
-      for (const jqxAppointment of jqxCalendar.appointments) {
-        this.updateAppointment(jqxAppointment);
+      if (calendars.length > 0) {
+        if (jqxCalendar.recurrenceChanged) {
+          this.adapter.dataBind();
+          $(this.calendarContainer.nativeElement).jqxScheduler('render');
+          ensureVisible = true;
+        } else {
+          for (const jqxAppointment of jqxCalendar.appointments) {
+            this.updateAppointment(jqxAppointment);
+          }
+        }
       }
 
       if (ensureVisible && jqxCalendar.appointments.length > 0) {
@@ -120,7 +132,11 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         for (const jqxAppointment of appointments) {
           const appointmentId = (jqxAppointment.appointmentId) ? jqxAppointment.appointmentId : jqxAppointment.id;
           if (appointmentId === jqxCalendar.appointments[0].id) {
-            $(this.calendarContainer.nativeElement).jqxScheduler('ensureAppointmentVisible', jqxAppointment.id);
+            // check if this is a recurrent appointment
+            const isRecurrent = jqxAppointment.jqxAppointment.isRecurrentAppointment();
+            if (!isRecurrent) {
+              $(this.calendarContainer.nativeElement).jqxScheduler('ensureAppointmentVisible', jqxAppointment.id);
+            }
             break;
           }
         }
@@ -311,10 +327,38 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         const args = event.args;
         const jqxAppointment = args.appointment.jqxAppointment;
         const appointmentId = (jqxAppointment.appointmentId) ? jqxAppointment.appointmentId : jqxAppointment.id;
+        const rootAppointment = jqxAppointment.rootAppointment;
+        let rootAppointmentId = null;
+        let recurrenceException: string;
+        if (rootAppointment) {
+          rootAppointmentId = (rootAppointment.appointmentId) ? rootAppointment.appointmentId : rootAppointment.id;
+
+          // get the exception
+          const exceptions = rootAppointment.recurrenceException;
+          if (exceptions.length > 0) {
+            // finds the source object
+            const jqxEvents = this.jqxAppointments.filter(appointment => appointment.id === rootAppointmentId);
+            if (jqxEvents.length > 0) {
+              const jqxEvent = jqxEvents[0];
+              recurrenceException = '';
+
+              for (const exception of exceptions) {
+                const dateVal = this.dateToString(exception.toDate());
+                if (!jqxEvent.recurrenceException || jqxEvent.recurrenceException.indexOf(dateVal) < 0) {
+                  if (recurrenceException) {
+                    recurrenceException += ',';
+                  }
+                  recurrenceException += dateVal;
+                }
+              }
+            }
+          }
+        }
         this.updateEvent.emit({
           id: appointmentId,
           startTime: jqxAppointment.from.toDate(),
-          endTime: jqxAppointment.to.toDate()
+          endTime: jqxAppointment.to.toDate(),
+          rootAppointment: (rootAppointmentId) ? {id: rootAppointmentId, recurrenceException} : null
       });
     });
     $(this.calendarContainer.nativeElement).on('appointmentAdd', (event: any) => {
@@ -508,10 +552,6 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'location', appointment.location);
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'subject', appointment.subject);
         $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'resourceId', appointment.calendar);
-        // $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'recurrencePattern'
-        //  , appointment.recurrencePattern);
-        $(this.calendarContainer.nativeElement).jqxScheduler('setAppointmentProperty', id, 'recurrenceException'
-          , appointment.recurrenceException);
         $(this.calendarContainer.nativeElement).jqxScheduler('endAppointmentsUpdate');
 
       }
@@ -536,4 +576,22 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
           }
         }
     }
+
+  private dateToString(value: Date): string {
+    let dateValue = `${value.getFullYear()}`;
+    const month = value.getMonth() + 1;
+    if (month < 10) {
+        dateValue += `-0${month}`;
+      } else {
+        dateValue += `-${month}`;
+    }
+    const day = value.getDate();
+    if (day < 10) {
+        dateValue += `-0${day}`;
+      } else {
+        dateValue += `-${day}`;
+      }
+
+    return `${dateValue} 12:00:00`;
+  }
 }

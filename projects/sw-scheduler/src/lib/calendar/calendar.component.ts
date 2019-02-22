@@ -47,9 +47,12 @@ export class CalendarComponent implements OnChanges, OnInit, AfterContentInit, A
           this.schedulerSvc.addJqxEvents({calendar: this.name, appointments: [jqxAppointment]});
         }
       });
-      this.updateEventSubscription = this.calendarSvc.updateEvent$.subscribe(jqxAppointment => {
-        jqxAppointment.calendar = this.name;
-        this.schedulerSvc.updateJqxEvents({calendar: this.name, appointments: [jqxAppointment]});
+      this.updateEventSubscription = this.calendarSvc.updateEvent$.subscribe(jqxAppointmentInfo => {
+        jqxAppointmentInfo.jqxAppointment.calendar = this.name;
+        this.schedulerSvc.updateJqxEvents({
+          calendar: this.name,
+          appointments: [jqxAppointmentInfo.jqxAppointment],
+          recurrenceChanged: jqxAppointmentInfo.recurrenceChanged});
       });
       this.deleteEventSubscription = this.calendarSvc.deleteEvent$.subscribe(id => {
         for (let i = 0; i < this.jqxAppointments.length; i++) {

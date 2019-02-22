@@ -1,5 +1,9 @@
 ﻿export interface EventInfo {
-    id: number;
+    id: any;
     startTime: Date;
     endTime: Date;
+    rootAppointment?: {
+      id: any,
+      recurrenceException: string;
+    };
 }

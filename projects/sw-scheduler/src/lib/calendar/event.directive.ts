@@ -35,7 +35,24 @@ export class EventDirective implements OnChanges, OnInit, OnDestroy {
         }
 
         if (isChanged) {
-            this.calendarSvc.updateEvent(this.event);
+          let recurrenceChanged = false;
+          if ('recurrenceException' in changes) {
+            const prevValue = changes.recurrenceException.previousValue;
+            const currentValue = changes.recurrenceException.currentValue;
+            if (prevValue || currentValue) {
+              recurrenceChanged = true;
+            }
+          }
+          if (!recurrenceChanged) {
+            if ('recurrencePattern' in changes) {
+              const prevValue = changes.recurrencePattern.previousValue;
+              const currentValue = changes.recurrencePattern.currentValue;
+              if (prevValue || currentValue) {
+                recurrenceChanged = true;
+              }
+            }
+          }
+          this.calendarSvc.updateEvent({recurrenceChanged, jqxAppointment: this.event});
         }
     }
 
