@@ -63,11 +63,8 @@ export class AppModule { ... }
 
 ## Usage
 
-<div class="alert is-helpful">
-<p>
-You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9) of the sample application that accompanies this guide
-</p>
-</div>
+You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of the sample application that accompanies this guide
+
 
 [How to use the Scheduler component](http://www.swaksoft.com/documentation/sw-scheduler/components/SchedulerComponent.html)
 
