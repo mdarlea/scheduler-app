@@ -69,7 +69,7 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
 
 **Example**
 
-```
+```html
   <sw-scheduler [editMode]="editMode"
             [ensureEventVisible]="ensureEventVisibleId"
             resourceOrientation="none"
