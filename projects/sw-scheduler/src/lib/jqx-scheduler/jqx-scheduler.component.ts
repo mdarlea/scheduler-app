@@ -101,25 +101,25 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
     this.updateEventSubscription = schedulerSvc.updateJqxEvents$.subscribe(jqxCalendar => {
       // tslint:disable-next-line:curly
       if (!this.initialized) return;
+      let refreshed = false;
 
       // check if this calendar already exists
       const calendars = this.jqxCalendars.filter(data => data.calendar === jqxCalendar.calendar);
-      let ensureVisible = false;
       if (calendars.length === 0) {
         this.jqxCalendars.push({calendar: jqxCalendar.calendar});
         this.calendarsAdapter.dataBind();
         if (jqxCalendar.appointments.length > 0) {
           this.adapter.dataBind();
         }
-        $(this.calendarContainer.nativeElement).jqxScheduler('render');
-        ensureVisible = true;
+        this.refresh();
+        refreshed = true;
       }
 
       if (calendars.length > 0) {
         if (jqxCalendar.recurrenceChanged) {
           this.adapter.dataBind();
-          $(this.calendarContainer.nativeElement).jqxScheduler('render');
-          ensureVisible = true;
+          this.refresh();
+          refreshed = true;
         } else {
           for (const jqxAppointment of jqxCalendar.appointments) {
             this.updateAppointment(jqxAppointment);
@@ -127,19 +127,8 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
         }
       }
 
-      if (ensureVisible && jqxCalendar.appointments.length > 0) {
-        const appointments = $(this.calendarContainer.nativeElement).jqxScheduler('appointments');
-        for (const jqxAppointment of appointments) {
-          const appointmentId = (jqxAppointment.appointmentId) ? jqxAppointment.appointmentId : jqxAppointment.id;
-          if (appointmentId === jqxCalendar.appointments[0].id) {
-            // check if this is a recurrent appointment
-            const isRecurrent = jqxAppointment.jqxAppointment.isRecurrentAppointment();
-            if (!isRecurrent) {
-              $(this.calendarContainer.nativeElement).jqxScheduler('ensureAppointmentVisible', jqxAppointment.id);
-            }
-            break;
-          }
-        }
+      if (refreshed && jqxCalendar.appointments.length === 1) {
+        $(this.calendarContainer.nativeElement).jqxScheduler('ensureVisible', jqxCalendar.appointments[0].end);
       }
     });
     this.deleteEventSubscription = schedulerSvc.deleteJqxEvents$.subscribe(ids => {
@@ -593,5 +582,9 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
       }
 
     return `${dateValue} 12:00:00`;
+  }
+
+  private refresh() {
+    $(this.calendarContainer.nativeElement).jqxScheduler('render');
   }
 }
