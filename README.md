@@ -147,11 +147,16 @@ Type: Function
 Function that returnes a new event object that is set to the selectedEvent property
 when a new event is added to the calendar. A new event is added when the user double clicks
 a cell in the calendar.
-The function receives an input parameter of type EventInfo
+The function receives an input parameter of the following type:
+{
+    id: any,
+    startTime: Date,
+    endTime: Date
+}
 
 **Example:**
  ```typescript
-        getNewEvent = (eventInfo: EventInfo) => {
+      getNewEvent = (eventInfo: EventInfo) => {
         const event = {
           id: -1,
           start: eventInfo.startTime,
@@ -170,7 +175,8 @@ The function receives an input parameter of type EventInfo
        ...
       </ng-template>
     </sw-scheduler>
-    ```
+```
+
 #### ```ensureEventVisible```
 Type: any
 
