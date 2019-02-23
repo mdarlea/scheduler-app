@@ -310,5 +310,83 @@ The template contains the markup for the dialog box that is opened when the even
 
 ### Events
 
+#### ```addEvent```
+Type: EventEmitter<any>
 
+Event fired when the user double clicks a cell in the calendar.
+The $event parameter is the new event object created when the user double clicks a cell in the calendar.
+This event object is returned by the function bound to the getNewEvent input property
+
+#### ```selectEvent```
+Type: EventEmitter<any>
+
+Event fired when a user selects (clicks) an event in the calendar.
+The $event parameter is the event object selected by the user.
+The selectedEvent property is set to this object as well.
+
+#### ```updateEvent```
+Type: EventEmitter<EventInfo>
+
+Event fired when the appointment was changed by dragging and dropping or resizing it in the calendar
+The $event parameter is of the following type:
+```
+    {
+      id: any,
+      startTime: Date,
+      endTime: Date,
+      rootAppointment?: {
+        id: any,
+        recurrenceException: string
+      }
+    }
+```
+
+If an occurance of a recurring appointment is dragged and dropped or resized in the calendar then the rootAppointment property is set.
+The id is set to the id of the recurring appointment. The resourceException is set to the date from which the occurance was changed.
+For example: The appointment with the id = 3 is a recurring daily appointment from 1 PM to 2 PM.
+The user drags the occurance from 03/01/2019 1PM and drops it to 03/01/2019 3PM. The $event object will be:
+
+```
+    {
+      id: 3.2345,
+      startTime: 03/01/2019 3 PM,
+      endTime: 03/01/2019 4 PM;
+      rootAppointment?: {
+        id: 3,
+        recurrenceException: '2019-03-01 12:00:00';
+      }
+    }
+```
+
+#### ```closeEventModal```
+Type: EventEmitter<any>
+
+Event fired when the dialog box associated with the selected event is closed
+
+#### ```viewChanged```
+Type: EventEmitter<any>
+
+Event fired when the scheduler view is changed.
+The $event parameter is an object of the following type:
+```
+     {
+        from: Date,
+        to: Date,
+        view: string
+      }
+```
+
+#### ```dateChanged```
+Type: EventEmitter<any>
+
+Event fired when the scheduler date range is changed.
+The $event parameter is an object of the following type:
+```
+    {
+        date: Date,
+        from: Date,
+        to: Date,
+        view: string
+     }
+```
 
