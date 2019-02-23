@@ -474,10 +474,20 @@ export class JqxSchedulerComponent implements OnChanges, OnInit, AfterViewInit, 
     const calendars = this.jqxCalendars.filter(data => data.calendar === jqxAppointments.calendar);
 
     if (calendars.length > 0) {
-      // calendar for this user was added; add the appointments to the calendar
-      for (const jqxAppointment of jqxAppointments.appointments) {
-        this.newJqxAppointment = jqxAppointment;
-        $(this.calendarContainer.nativeElement).jqxScheduler('addAppointment', jqxAppointment);
+      // fix issue with recurrenceException on add
+      const appointments = jqxAppointments.appointments.filter(a => a.recurrenceException);
+
+      if (appointments.length === 0) {
+        // calendar for this user was added; add the appointments to the calendar
+        for (const jqxAppointment of jqxAppointments.appointments) {
+          this.newJqxAppointment = jqxAppointment;
+          $(this.calendarContainer.nativeElement).jqxScheduler('addAppointment', jqxAppointment);
+        }
+      } else {
+        // refresh view
+        this.adapter.dataBind();
+        $(this.calendarContainer.nativeElement).jqxScheduler('addAppointment');
+        $(this.calendarContainer.nativeElement).jqxScheduler('render');
       }
     } else {
       // add the calendar
