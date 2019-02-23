@@ -64,7 +64,8 @@ export class EventDirective implements OnChanges, OnInit, OnDestroy {
             description: this.description,
             start: this.start,
             end: this.end,
-            recurrencePattern: this.recurrencePattern
+            recurrencePattern: this.recurrencePattern,
+            recurrenceException: this.recurrenceException
         };
 
         this.calendarSvc.addEvent(this.event);
