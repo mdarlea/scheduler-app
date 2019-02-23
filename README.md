@@ -149,9 +149,8 @@ when a new event is added to the calendar. A new event is added when the user do
 a cell in the calendar.
 The function receives an input parameter of type EventInfo
 
-**Example**
-
-    ```typescript
+**Example:**
+ ```typescript
         getNewEvent = (eventInfo: EventInfo) => {
         const event = {
           id: -1,
@@ -161,8 +160,8 @@ The function receives an input parameter of type EventInfo
         };
         return event;
       }
-    ```
-    ```html
+```
+```html
     <sw-scheduler [getNewEvent]="getNewEvent" ... >
       <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
        ...
