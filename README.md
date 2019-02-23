@@ -125,8 +125,9 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
 
 #### Calendar
 
+  Selector: ```sw-calendar```
    The calendar component has 2 input properties:
-   
+
    | Name   | Type       | Description                      |
    |--------|------------|----------------------------------|
    | name   | string     | The calendar (resource) name     |
