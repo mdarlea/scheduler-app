@@ -390,3 +390,15 @@ The $event parameter is an object of the following type:
      }
 ```
 
+### Methods
+
+#### closeSelectedEvent
+```closeSelectedEvent()```
+
+Close the selected event dialog box if it is opened
+
+#### render
+```render()```
+
+Renders the scheduler
+
