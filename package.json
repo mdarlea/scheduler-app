@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compodoc": "npx compodoc -p projects/sw-scheduler/tsconfig.lib.json"
+    "compodoc": "npx compodoc -p projects/sw-scheduler/tsconfig.lib.json",
+    "build-scheduler": "ng build sw-scheduler"
   },
   "private": true,
   "dependencies": {
