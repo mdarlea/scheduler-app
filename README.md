@@ -3,6 +3,11 @@ Angular component for the Jqx scheduler widget
 
 ## Install
 
+### Install jquery
+```
+$ npm install jquery --save
+```
+
 ### Install the jqwidgets
 ```
 $ npm install jqwidgets-framework --save
@@ -121,12 +126,67 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
   </sw-scheduler>
 ```
 
+### Input properties
+
+#### ```editMode```
+Type: boolean
+
+If true then the dialog box for the selected event will display the schedulerReadSeletedEventTemplate template,
+otherwize it will dispaly the schedulerEditSeletedEventTemplate template
+
+#### ```resourceOrientation```
+Type: string
+
+Defines the resources representation. Possible values - 'none', 'horizontal', 'vertical'
+
+#### ```getNewEvent```
+Type: Function
+
+Function that returnes a new event object that is set to the selectedEvent property
+when a new event is added to the calendar. A new event is added when the user double clicks
+a cell in the calendar.
+The function receives an input parameter of type EventInfo
+
+**Example**
+
+    ```typescript
+        getNewEvent = (eventInfo: EventInfo) => {
+        const event = {
+          id: -1,
+          start: eventInfo.startTime,
+          end: eventInfo.endTime,
+          calendar: 'Room 1'
+        };
+        return event;
+      }
+    ```
+    ```html
+    <sw-scheduler [getNewEvent]="getNewEvent" ... >
+      <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
+       ...
+      </ng-template>
+      <ng-template schedulerEditSeletedEventTemplate let-selectedEvent="selectedEvent">
+       ...
+      </ng-template>
+    </sw-scheduler>
+    ```
+#### ```ensureEventVisible```
+Type: any
+
+Scrolls to an event if it is out of the visible area. Set the id value of this event.
+
+#### ```date```
+Type: Date
+
+The Scheduler's Date
+
 ### Content children
 
 #### Calendar
 
   Selector: ```sw-calendar```
-   The calendar component has 2 input properties:
+
+  The calendar component has 2 input properties:
 
    | Name   | Type       | Description                      |
    |--------|------------|----------------------------------|
@@ -135,7 +195,7 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
 
    The bound event objects must have the following properties:
 
-   | Name                | Type   |          | Description                                                                          |
+   | Name                | Type   | Req/Opt  | Description                                                                          |
    |---------------------|--------|----------|--------------------------------------------------------------------------------------|
    | id                  | any    | required | The id of the event                                                                  |
    | description         | string | optional | Event description                                                                    |
@@ -146,7 +206,7 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
    | recurrencePattern   | string | optional | Recurrent  event (appointment). Please see more information below                    |
    | recurrenceException | string | optional | Exception dates for recurrent event (appointment). Please see more information below |
 
-   - **recurrencePattern** - string field. Defines the appointment's recurrence rule. Ex: "FREQ=DAILY;". List of supported keywords:
+- **recurrencePattern** - string field. Defines the appointment's recurrence rule. Ex: "FREQ=DAILY;". List of supported keywords:
 FREQ - "DAILY" / "WEEKLY" / "MONTHLY" / "YEARLY". The FREQ rule part identifies the type of recurrence rule. This rule part MUST be specified in the recurrence rule.
 COUNT - Number. The Count rule part defines the number of occurrences at which to range-bound the recurrence.
 UNTIL - String like "UNTIL=20160919T210000Z". The UNTIL rule part defines a date-time value where the recurrence ends.
@@ -156,7 +216,7 @@ BYMONTH - Number like 1. The BYMONTH rule part specifies a month of the year. Va
 INTERVAL - Number like 1. The INTERVAL rule part contains a positive integer representing how often the recurrence rule repeats. The default value is "1",
 Examples: "FREQ=WEEKLY;BYDAY=MO,WE", "FREQ=MONTHLY;BYMONTHDAY=10,15;COUNT=20", "FREQ=DAILY;INTERVAL=3;COUNT=10", "FREQ=MONTHLY;BYDAY=-2FR;COUNT=7", "FREQ=YEARLY;COUNT=30;BYMONTH=3"
 
-  - **recurrenceException** - string field. Defines the exceptions of the recurrence rule. The bound value should be a string or comma separated list of Date strings. Example: "2016-11-24 09:00:00,2016-11-26 12:00:00"
+- **recurrenceException** - string field. Defines the exceptions of the recurrence rule. The bound value should be a string or comma separated list of Date strings. Example: "2016-11-24 09:00:00,2016-11-26 12:00:00"
 
   **Example:**
    ```typescript
@@ -192,3 +252,56 @@ Examples: "FREQ=WEEKLY;BYDAY=MO,WE", "FREQ=MONTHLY;BYMONTHDAY=10,15;COUNT=20", "
       ...
     </sw-scheduler>
    ```
+
+#### Event template
+
+Selector: ```schedulerEventTemplate```
+The template is bound to the jqx appointment object which is created when a new appointment is rendered in the calendar
+  
+  **Example**
+
+```html
+  <sw-scheduler ... >
+    <ng-template schedulerEventTemplate let-data="data">
+      <div><i>{{data.subject}}</i></div>
+      <div>{{data.resourceId}}</div>
+    </ng-template>
+  </sw-scheduler>
+```
+
+#### Selected event template - read mode
+
+Selector: ```schedulerReadSeletedEventTemplate```
+The template is bound to the selectedEvent property which is set to the event object selected by the user when he clicks an event in the calendar.
+The template contains the markup for the dialog box that is opened when the event is selected in the calendar in read mode (editMode = false)
+
+**Example**
+```html
+   <sw-scheduler ... >
+      <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
+       ...
+      </ng-template>
+      ...
+    </sw-scheduler>
+```
+
+####  Selected event template - edit mode
+
+Selector: ```schedulerEditSeletedEventTemplate```
+The template is bound to the selectedEvent property which is set to the event object selected by the user when he clicks an event in the calendar.
+The template contains the markup for the dialog box that is opened when the event is selected in the calendar in edit mode (editMode = true)
+
+**Example**
+```html
+   <sw-scheduler ... >
+      <ng-template schedulerEditSeletedEventTemplate let-selectedEvent="selectedEvent">
+       ...
+      </ng-template>
+      ...
+    </sw-scheduler>
+```
+
+### Events
+
+
+
