@@ -7,7 +7,7 @@ import { JqxAppointment } from '../jqx-appointment';
     selector: 'event'
 })
 export class EventDirective implements OnChanges, OnInit, OnDestroy {
-  @Input() id: any;
+    @Input() id: any;
     @Input() description: string;
     @Input() location: string;
     @Input() subject: string;

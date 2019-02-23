@@ -121,3 +121,72 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
   </sw-scheduler>
 ```
 
+### Content children
+
+#### Calendar
+
+   The calendar component has 2 input properties:
+   | Name   | Type       |Description                       |
+   |--------|------------|----------------------------------|
+   | name   | string     | The calendar (resource) name     |
+   | events | Array<any> | Array of the bound event objects |
+
+   The bound event objects must have the following properties:
+
+   | Name                | Type   |          | Description                                                                          |
+   |---------------------|--------|----------|--------------------------------------------------------------------------------------|
+   | id                  | any    | required | The id of the event                                                                  |
+   | description         | string | optional | Event description                                                                    |
+   | location            | string | optional | Event location                                                                       |
+   | subject             | string | optional | Event subject                                                                        |
+   | start               | Date   | required | Event start date time                                                                |
+   | end                 | Date   | required | Event end date time                                                                  |
+   | recurrencePattern   | string | optional | Recurrent  event (appointment). Please see more information below                    |
+   | recurrenceException | string | optional | Exception dates for recurrent event (appointment). Please see more information below |
+
+   - **recurrencePattern** - string field. Defines the appointment's recurrence rule. Ex: "FREQ=DAILY;". List of supported keywords:
+FREQ - "DAILY" / "WEEKLY" / "MONTHLY" / "YEARLY". The FREQ rule part identifies the type of recurrence rule. This rule part MUST be specified in the recurrence rule.
+COUNT - Number. The Count rule part defines the number of occurrences at which to range-bound the recurrence.
+UNTIL - String like "UNTIL=20160919T210000Z". The UNTIL rule part defines a date-time value where the recurrence ends.
+BYDAY - String like "MO,TU". The BYDAY rule part specifies a COMMA character (US-ASCII decimal 44) separated list of days of the week; MO indicates Monday; TU indicates Tuesday; WE indicates Wednesday; TH indicates Thursday; FR indicates Friday; SA indicates Saturday; SU indicates Sunday. Each BYDAY value can also be preceded by a positive (+n) or negative (-n) integer. If present, this indicates the nth occurrence of the specific day within the MONTHLY or YEARLY RRULE. For example, within a MONTHLY rule, +1MO (or simply 1MO) represents the first Monday within the month, whereas -1MO represents the last Monday of the month.
+BYMONTHDAY - String like 15, 30. The BYMONTHDAY rule part specifies a COMMA character (ASCII decimal 44) separated list of days of the month. Valid values are 1 to 31
+BYMONTH - Number like 1. The BYMONTH rule part specifies a month of the year. Valid values are 1 to 12.
+INTERVAL - Number like 1. The INTERVAL rule part contains a positive integer representing how often the recurrence rule repeats. The default value is "1",
+Examples: "FREQ=WEEKLY;BYDAY=MO,WE", "FREQ=MONTHLY;BYMONTHDAY=10,15;COUNT=20", "FREQ=DAILY;INTERVAL=3;COUNT=10", "FREQ=MONTHLY;BYDAY=-2FR;COUNT=7", "FREQ=YEARLY;COUNT=30;BYMONTH=3"
+
+  - **recurrenceException** - string field. Defines the exceptions of the recurrence rule. The bound value should be a string or comma separated list of Date strings. Example: "2016-11-24 09:00:00,2016-11-26 12:00:00"
+
+  **Example:**
+   ```typescript
+      roomOne = new Array<{id: number, subject: string, start: Date, end: Date}>();
+      roomTwo = new Array<{id: number, subject: string, start: Date, end: Date}>();
+
+      ngOnInit() {
+        let start = new Date();
+        let end = new Date();
+        start.setHours(10, 0, 0, 0);
+        end.setHours(11, 0, 0, 0);
+        this.roomOne.push({id: 1, subject: '1st subject', start: start, end: end});
+
+        start = new Date();
+        end = new Date();
+        start.setHours(12, 0, 0, 0);
+        end.setHours(13, 0, 0, 0);
+        this.roomOne.push({id: 2, subject: '2nd subject', start: start, end: end});
+
+        start = new Date();
+        end = new Date();
+        start.setHours(13, 0, 0, 0);
+        end.setHours(14, 0, 0, 0);
+        this.roomTwo.push({id: 3, subject: '3rd subject', start: start, end: end});
+      }
+   ```
+   ```html
+    <sw-scheduler ... >
+      <sw-calendar name="Room 1" [events]="roomOne">
+      </sw-calendar>
+      <sw-calendar name="Room 2" [events]="roomTwo">
+      </sw-calendar>
+      ...
+    </sw-scheduler>
+   ```

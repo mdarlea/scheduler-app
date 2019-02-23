@@ -137,8 +137,8 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
    * The function receives an input parameter of type EventInfo
    *
    * <b>Example</b>
-   * <pre class="line-numbers">
-   *  <code class="language-typescript">getNewEvent = (eventInfo: EventInfo) => {
+    ```typescript
+        getNewEvent = (eventInfo: EventInfo) => {
         const event = {
           id: -1,
           start: eventInfo.startTime,
@@ -146,21 +146,9 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
           calendar: 'Room 1'
         };
         return event;
-      }</code>
-   * </pre>
-<pre class="line-numbers language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-scheduler</span> <span class="token attr-name">[getNewEvent]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>getNewEvent<span class="token punctuation">"</span></span> <span class="token attr-name">...</span> <span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">schedulerReadSeletedEventTemplate</span> <span class="token attr-name">let-selectedEvent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectedEvent<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-    ...
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">schedulerEditSeletedEventTemplate</span> <span class="token attr-name">let-selectedEvent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectedEvent<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-    ...
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-scheduler</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-   * @example
-   * ```typescript
-
+      }
     ```
-    @example
+    ```html
     <sw-scheduler [getNewEvent]="getNewEvent" ... >
       <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
        ...
@@ -169,6 +157,7 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
        ...
       </ng-template>
     </sw-scheduler>
+    ```
  */
   @Input() getNewEvent: Function;
 
@@ -197,13 +186,34 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
   @Output() selectEvent = new EventEmitter<any>();
 
   /**
-   * Event fired when the event was changed by dragging and dropping it in the calendar
+   * Event fired when the appointment was changed by dragging and dropping or resizing it in the calendar
    * The $event parameter is of the following type:
-   * {
-       id: number;
-       startTime: Date;
-       endTime: Date;
-     }
+   ```
+    {
+      id: any,
+      startTime: Date,
+      endTime: Date,
+      rootAppointment?: {
+        id: any,
+        recurrenceException: string
+      }
+    }
+    ```
+    If an occurance of a recurring appointment is dragged and dropped or resized in the calendar then the rootAppointment property is set.
+    The id is set to the id of the recurring appointment. The resourceException is set to the date from which the occurance was changed.
+    For example: The appointment with the id = 3 is a recurring daily appointment from 1 PM to 2 PM.
+    The user drags the occurance from 03/01/2019 1PM to 03/01/2019 3PM. The $event object will be:
+    ```
+    {
+      id: 3.2345,
+      startTime: 03/01/2019 3 PM,
+      endTime: 03/01/2019 4 PM;
+      rootAppointment?: {
+        id: 3,
+        recurrenceException: '2019-03-01 12:00:00';
+      }
+    }
+    ```
    */
   @Output() updateEvent = new EventEmitter<EventInfo>();
 
@@ -215,23 +225,27 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
     /**
    * Event fired when the scheduler view is changed.
    * The $event parameter is an object of the following type:
-   * {
+   ```
+     {
         from: Date,
         to: Date,
         view: string
       }
+    ```
    */
   @Output() viewChanged = new EventEmitter<any>();
 
   /**
    * Event fired when the scheduler date range is changed.
    * The $event parameter is an object of the following type:
-   * {
+   ```
+    {
         date: Date,
         from: Date,
         to: Date,
         view: string
-      }
+     }
+    ```
    */
   @Output() dateChanged = new EventEmitter<any>();
 
@@ -266,11 +280,11 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
   }
 
   /**
-   * Content children of calendar components
-   *
-   * <b>Example</b>
-   * <pre class="line-numbers">
-   *  <code class="language-typescript">roomOne = new Array<{id: number, subject: string, start: Date, end: Date}>();
+   * Content children of calendar components.
+
+  **Example:**
+   ```typescript
+      roomOne = new Array<{id: number, subject: string, start: Date, end: Date}>();
       roomTwo = new Array<{id: number, subject: string, start: Date, end: Date}>();
 
       ngOnInit() {
@@ -291,17 +305,9 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
         start.setHours(13, 0, 0, 0);
         end.setHours(14, 0, 0, 0);
         this.roomTwo.push({id: 3, subject: '3rd subject', start: start, end: end});
-      }</code>
-   * </pre>
-  <pre class="line-numbers language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-scheduler</span> <span class="token attr-name">...</span> <span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-calendar</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Room 1<span class="token punctuation">"</span></span> <span class="token attr-name">[events]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>roomOne<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-calendar</span><span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-calendar</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Room 2<span class="token punctuation">"</span></span> <span class="token attr-name">[events]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>roomTwo<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-calendar</span><span class="token punctuation">&gt;</span></span>
-   ...
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-scheduler</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-  @example
-  *
+      }
+   ```
+   ```html
     <sw-scheduler ... >
       <sw-calendar name="Room 1" [events]="roomOne">
       </sw-calendar>
@@ -309,6 +315,7 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
       </sw-calendar>
       ...
     </sw-scheduler>
+   ```
    */
   @ContentChildren(CalendarComponent) calendars: QueryList<CalendarComponent>;
 
@@ -320,20 +327,14 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
    * in the calendar in edit mode (editMode = true)
    *
    * <b>Example</b>
-   <pre class="line-numbers language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-scheduler</span> <span class="token attr-name">...</span> <span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">schedulerEditSeletedEventTemplate</span> <span class="token attr-name">let-selectedEvent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectedEvent<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-    ...
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">&gt;</span></span>
-   ...
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-scheduler</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-  @example
-  *
-    <sw-scheduler ... >
+```html
+   <sw-scheduler ... >
       <ng-template schedulerEditSeletedEventTemplate let-selectedEvent="selectedEvent">
        ...
       </ng-template>
       ...
     </sw-scheduler>
+```
    */
   @ContentChild(SchedulerEditSeletedEventTemplateDirective, { read: TemplateRef })
   schedulerEditSeletedEventTemplate: TemplateRef<any>;
@@ -346,20 +347,14 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
    * in the calendar in read mode (editMode = false)
    *
    * <b>Example</b>
-  <pre class="line-numbers language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-scheduler</span> <span class="token attr-name">...</span> <span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">schedulerEditSeletedEventTemplate</span> <span class="token attr-name">let-selectedEvent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectedEvent<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-    ...
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">&gt;</span></span>
-   ...
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-scheduler</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
- @example
-  *
-    <sw-scheduler ... >
+```html
+   <sw-scheduler ... >
       <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
        ...
       </ng-template>
       ...
     </sw-scheduler>
+```
 */
   @ContentChild(SchedulerReadSeletedEventTemplateDirective, { read: TemplateRef })
   schedulerReadSeletedEventTemplate: TemplateRef<any>;
@@ -370,19 +365,14 @@ export class SchedulerComponent implements OnInit, AfterContentInit, AfterConten
    * in the calendar
    *
    * <b>Example</b>
-   * <pre class="line-numbers language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sw-scheduler</span> <span class="token attr-name">...</span> <span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">schedulerEventTemplate</span> <span class="token attr-name">let-data</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>data<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">&gt;</span></span>{{data.subject}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>{{data.resourceId}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sw-scheduler</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-  @example
-  * <sw-scheduler ... >
+```html
+  <sw-scheduler ... >
     <ng-template schedulerEventTemplate let-data="data">
       <div><i>{{data.subject}}</i></div>
       <div>{{data.resourceId}}</div>
     </ng-template>
   </sw-scheduler>
+```
 */
   @ContentChild(SchedulerEventTemplateDirective, { read: TemplateRef })
   schedulerEventTemplate: TemplateRef<any>;
