@@ -74,7 +74,7 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
 
 [How to use the Scheduler component](http://www.swaksoft.com/documentation/sw-scheduler/components/SchedulerComponent.html)
 
-**Example**
+*Example*
 
 ```html
   <sw-scheduler [editMode]="editMode"
@@ -154,7 +154,7 @@ The function receives an input parameter of the following type:
     endTime: Date
 }
 
-**Example:**
+*Example:*
  ```typescript
       getNewEvent = (eventInfo: EventInfo) => {
         const event = {
@@ -225,7 +225,7 @@ Examples: "FREQ=WEEKLY;BYDAY=MO,WE", "FREQ=MONTHLY;BYMONTHDAY=10,15;COUNT=20", "
 
 - **recurrenceException** - string field. Defines the exceptions of the recurrence rule. The bound value should be a string or comma separated list of Date strings. Example: "2016-11-24 09:00:00,2016-11-26 12:00:00"
 
-  **Example:**
+*Example:*
    ```typescript
       roomOne = new Array<{id: number, subject: string, start: Date, end: Date}>();
       roomTwo = new Array<{id: number, subject: string, start: Date, end: Date}>();
@@ -265,7 +265,7 @@ Examples: "FREQ=WEEKLY;BYDAY=MO,WE", "FREQ=MONTHLY;BYMONTHDAY=10,15;COUNT=20", "
 Selector: ```schedulerEventTemplate```
 The template is bound to the jqx appointment object which is created when a new appointment is rendered in the calendar
   
-  **Example**
+  *Example*
 
 ```html
   <sw-scheduler ... >
@@ -282,7 +282,7 @@ Selector: ```schedulerReadSeletedEventTemplate```
 The template is bound to the selectedEvent property which is set to the event object selected by the user when he clicks an event in the calendar.
 The template contains the markup for the dialog box that is opened when the event is selected in the calendar in read mode (editMode = false)
 
-**Example**
+*Example*
 ```html
    <sw-scheduler ... >
       <ng-template schedulerReadSeletedEventTemplate let-selectedEvent="selectedEvent">
@@ -298,7 +298,7 @@ Selector: ```schedulerEditSeletedEventTemplate```
 The template is bound to the selectedEvent property which is set to the event object selected by the user when he clicks an event in the calendar.
 The template contains the markup for the dialog box that is opened when the event is selected in the calendar in edit mode (editMode = true)
 
-**Example**
+*Example*
 ```html
    <sw-scheduler ... >
       <ng-template schedulerEditSeletedEventTemplate let-selectedEvent="selectedEvent">
