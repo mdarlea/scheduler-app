@@ -126,7 +126,7 @@ You can run the [live example](https://stackblitz.com/edit/angular-3tkfe9/) of t
 #### Calendar
 
    The calendar component has 2 input properties:
-   | Name   | Type       |Description                       |
+   | Name   | Type       | Description                      |
    |--------|------------|----------------------------------|
    | name   | string     | The calendar (resource) name     |
    | events | Array<any> | Array of the bound event objects |
