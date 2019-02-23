@@ -1,4 +1,4 @@
-https://travis-ci.com/mdarlea/scheduler-app.svg?branch=master
+[![Build Status](https://travis-ci.com/mdarlea/scheduler-app.svg?branch=master)](https://travis-ci.com/mdarlea/scheduler-app)
 
 # Scheduler
 Angular component for the Jqx scheduler widget
